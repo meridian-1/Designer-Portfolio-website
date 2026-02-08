@@ -1,0 +1,559 @@
+@font-face {
+  font-family: 'Manrope';
+  src: url('./fonts/Manrope-Bold.woff2') format('woff2');
+  font-weight: bold;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./fonts/Manrope-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Manrope';
+  src: url('./fonts/Manrope-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+/**
+  Нормализация блочной модели
+ */
+*,
+::before,
+::after {
+  box-sizing: border-box;
+}
+
+/**
+  Убираем внутренние отступы слева тегам списков,
+  у которых есть атрибут class
+ */
+:where(ul, ol):where([class]) {
+  padding-left: 0;
+}
+
+/**
+  Убираем внешние отступы body и двум другим тегам,
+  у которых есть атрибут class
+ */
+body,
+:where(blockquote, figure, fieldset):where([class]) {
+  margin: 0;
+}
+
+/**
+  Убираем внешние отступы вертикали нужным тегам,
+  у которых есть атрибут class
+ */
+:where(h1, h2, h3, h4, h5, h6, p, ul, ol, dl):where([class]) {
+  margin-block: 0;
+}
+
+:where(dd[class]) {
+  margin-left: 0;
+}
+
+:where(fieldset[class]) {
+  padding: 0;
+  border: none;
+}
+
+/**
+  Убираем стандартный маркер маркированному списку,
+  у которого есть атрибут class
+ */
+:where(ul[class]) {
+  list-style: none;
+}
+
+:where(address[class]) {
+  font-style: normal;
+}
+
+/**
+  Обнуляем вертикальные внешние отступы параграфа,
+  объявляем локальную переменную для внешнего отступа вниз,
+  чтобы избежать взаимодействие с более сложным селектором
+ */
+p {
+  --paragraphMarginBottom: 24px;
+
+  margin-block: 0;
+}
+
+/**
+  Внешний отступ вниз для параграфа без атрибута class,
+  который расположен не последним среди своих соседних элементов
+ */
+p:where(:not([class]):not(:last-child)) {
+  margin-bottom: var(--paragraphMarginBottom);
+}
+
+/**
+  Упрощаем работу с изображениями и видео
+ */
+img,
+video {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/**
+  Наследуем свойства шрифт для полей ввода
+ */
+input,
+textarea,
+select,
+button {
+  font: inherit;
+  padding: 0;
+  border: none;
+}
+
+html {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  height: 100%;
+  /**
+    Убираем скачок интерфейса по горизонтали
+    при появлении / исчезновении скроллбара
+   */
+}
+
+/**
+  Плавный скролл
+ */
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  /**
+    Пригодится в большинстве ситуаций
+    (когда, например, нужно будет "прижать" футер к низу сайта)
+   */
+  min-height: 100%;
+  /**
+    Унифицированный интерлиньяж
+   */
+  line-height: 1.5;
+}
+
+/**
+  Нормализация высоты элемента ссылки при его инспектировании в DevTools
+ */
+a:where([class]) {
+  display: inline-flex;
+}
+
+/**
+  Курсор-рука при наведении на элемент
+ */
+button,
+label {
+  cursor: pointer;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут fill со значением 'none' или начинается с 'url')
+ */
+:where([fill]:not([fill='none'], [fill^='url'])) {
+  fill: currentColor;
+}
+
+/**
+  Приводим к единому цвету svg-элементы
+  (за исключением тех, у которых уже указан
+  атрибут stroke со значением 'none')
+ */
+:where([stroke]:not([stroke='none'], [stroke^='url'])) {
+  stroke: currentColor;
+}
+
+/**
+  Чиним баг задержки смены цвета при взаимодействии с svg-элементами
+ */
+svg * {
+  transition-property: fill, stroke;
+}
+
+/**
+  Приведение рамок таблиц в классический 'collapse' вид
+ */
+:where(table) {
+  border-collapse: collapse;
+  border-color: currentColor;
+}
+
+/**
+  Удаляем все анимации и переходы для людей,
+  которые предпочитают их не использовать
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  white-space: nowrap !important;
+  clip-path: inset(100%) !important;
+  clip: rect(0 0 0 0) !important;
+  overflow: hidden !important;
+}
+
+:root {
+  --color-white: #ffffff;
+  --color-gray: #959595;
+  --dark-gray: #202020;
+  --light-gray: #dedede;
+  --button-color: #9d9d9d;
+
+  --opacity: 0.7;
+
+  --border-radius-button: 4px;
+  --header-blur: blur(10px);
+
+  --transition-duration: 0.4s;
+
+  --container-width: 1248px;
+}
+
+body {
+  font-family: 'Manrope', sans-serif;
+  background-color: var(--dark-gray);
+  color: var(--light-gray);
+  font-weight: 600px;
+  letter-spacing: -0.5px;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+}
+
+p {
+  color: var(--color-gray);
+}
+
+a {
+  color: var(--light-gray);
+  text-decoration: none;
+}
+
+.container {
+  display: flex;
+  max-width: var(--container-width);
+  height: 100%;
+  margin: 0 auto;
+  padding: 0 15px;
+  box-sizing: border-box;
+  /* flex-shrink: 0;
+  box-sizing: border-box; */
+}
+
+/* Header section */
+.header {
+  height: 80px;
+  background: rgba(50, 50, 50, 0.7);
+  backdrop-filter: blur(10px);
+}
+
+.header__container {
+  justify-content: space-between;
+  align-items: center;
+}
+
+.header__logo {
+  text-wrap: nowrap;
+  align-items: center;
+  gap: 11px;
+}
+
+.header__logo:hover,
+.header__logo:focus {
+  opacity: var(--opacity);
+}
+
+.header__logo-image {
+  width: 29px;
+  height: 40px;
+}
+
+.header__logo-label {
+  font-size: 20px;
+  padding: 27px 0;
+}
+
+.header__list {
+  padding: 30px 0 25px 0;
+  display: flex;
+  gap: 56px;
+}
+
+.header__link {
+}
+
+.header__link:hover,
+.header__link:focus {
+  opacity: var(--opacity);
+}
+
+/* main */
+.main {
+}
+
+/* welcome section */
+.welcome {
+  margin-top: 160px;
+}
+
+.welcome__container {
+  justify-content: space-between;
+}
+
+.welcome__inner-wrapper {
+}
+
+.welcome__title {
+  width: 500px;
+  font-size: 54px;
+  margin-bottom: 24px;
+}
+
+.welcome__subtitle {
+  width: 395px;
+  font-size: 20px;
+  color: var(--color-gray);
+  margin-bottom: 88px;
+}
+
+.button {
+  display: inline-flex;
+  padding: 16px 48px;
+  align-items: center;
+  gap: 11px;
+  font-size: 18px;
+
+  color: var(--color-white);
+  border-radius: var(--border-radius-button);
+  background: var(--button-color);
+}
+
+.button::before {
+  content: '';
+  width: 21px;
+  height: 16px;
+
+  display: inline-block;
+  background-image: url('./icons/mail.svg');
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.welcome__img {
+  border-radius: 400px;
+  width: 400px;
+  height: 400px;
+  flex-shrink: 0;
+
+  object-fit: cover;
+  object-position: center;
+
+  margin-right: 105px;
+}
+
+/* featured section */
+.featured__work {
+  margin-top: 145px;
+}
+
+.featured__work .container {
+  flex-direction: column;
+}
+
+.featured_work-btn {
+  display: inline-flex;
+  gap: 25px;
+  align-items: center;
+  font-size: 16px;
+  color: inherit;
+  text-transform: uppercase;
+  background: transparent;
+  opacity: var(--opacity);
+  margin-bottom: 80px;
+}
+
+.visually-hidden {
+}
+
+.work__icon {
+}
+
+.works__wrapper {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  padding-top: 138px;
+}
+
+.work {
+  width: 612px;
+  height: 888px;
+  position: relative;
+}
+
+.work:nth-child(odd) {
+  margin-top: -138px;
+}
+
+.work__img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.work__name {
+  opacity: 0;
+
+  position: absolute;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  font-size: 40px;
+  font-weight: 700;
+
+  background-color: rgba(0, 0, 0, 0.6);
+  transition: var(--transition-duration);
+}
+
+.work:hover .work__name {
+  opacity: 1;
+}
+
+/* Projecst section */
+.projects {
+  margin-top: 200px;
+}
+
+.projects__title {
+  font-size: 36px;
+  font-weight: 700;
+
+  text-align: center;
+  padding-bottom: 65px;
+}
+
+.projects__container {
+  flex-direction: column;
+}
+
+.projects__wrapper {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.project__img {
+  object-fit: cover;
+  object-position: center;
+}
+
+.project__img--visual {
+  width: 400px;
+  height: 408px;
+}
+
+.project__img--persona {
+  width: 400px;
+  height: 560px;
+}
+
+/* Contact section */
+.contact {
+  margin-top: 180px;
+}
+
+.contact--container {
+  width: 363px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.contact__title {
+  margin-bottom: 24px;
+}
+.contact__text {
+  font-style: 26px;
+  margin-bottom: 48px;
+}
+
+/* footer */
+.footer {
+  margin-top: 124px;
+  padding: 40px 0;
+  border-top: 1px solid #696969;
+}
+
+.footer-container {
+  align-items: baseline;
+  justify-content: space-between;
+}
+
+.footer__copyright {
+  font-size: 16px;
+}
+
+.footer__authorname {
+  color: #ececec;
+}
+
+.social-list {
+  display: inline-flex;
+  gap: 43px;
+}
+
+.social__img {
+  width: 22px;
+  height: 22px;
+}
+
+.social-item {
+  display: flex;
+  flex-shrink: 0;
+}
