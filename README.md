@@ -3,6 +3,7 @@
 ## Project description
 
 This is a portfolio website for design products. The site includes sections: welcome, featured works, visual studies, personal projects, and contact information.
+Site is live at https://meridian-1.github.io/Designer-Portfolio-website/
 
 ## Project structure
 - `index.html` - Site homepage
